@@ -109,21 +109,20 @@ class SimpleRAG:
     def invoke(self, inputs):
         query = inputs.get("input") if isinstance(inputs, dict) else str(inputs)
 
-        # 1) Retrieve top docs
         docs = getattr(self.retriever, "get_relevant_documents", lambda q: [])(query)
 
-        # 2) Build prompt
+
         context_text = self._format_context(docs)
         system_text = self.system_prompt_template.format(context=context_text)
         messages = [SystemMessage(content=system_text), HumanMessage(content=query)]
 
-        # 3) Call LLM
+        
         try:
             resp = self.llm.invoke(messages)
         except Exception as e:
             raise RuntimeError(f"LLM invocation failed: {e}")
 
-        # 4) Extract response text
+       
         if hasattr(resp, "content"): return resp.content
         if isinstance(resp, dict):
             for k in ("content", "response", "text", "output"):
@@ -135,13 +134,12 @@ class SimpleRAG:
 def get_rag_chain():
     """Constructs and returns a SimpleRAG instance (or None on error)."""
     try:
-        # 1. Setup LLM
+        
         llm = ChatOllama(model=OLLAMA_MODEL, base_url=OLLAMA_BASE_URL)
 
-        # 2. Setup Embeddings (Must match what you used in vector.py)
         embeddings = HuggingFaceEmbeddings(model_name='all-MiniLM-L6-v2')
 
-        # 3. Load Vector DB
+        
         if not os.path.exists(VECTOR_DB_PATH):
             st.error(f"⚠️ Database not found at {VECTOR_DB_PATH}. Please run 'python vector.py' first.")
             return None
@@ -152,10 +150,8 @@ def get_rag_chain():
             collection_name="salary_explanations"  # Important: Must match vector.py
         )
 
-        # 4. Create Retriever
         retriever = vectorstore.as_retriever(search_kwargs={"k": 2})  # Fetch top 2 results
 
-        # 5. Create a system prompt template that expects `{context}` and `{input}` via HumanMessage
         system_prompt = (
             "You are an expert HR Analyst. Use the retrieved context to answer "
             "the user's question about salary, skills, and career steps. "
@@ -164,7 +160,6 @@ def get_rag_chain():
             "{context}"
         )
 
-        # 6. Return a simple wrapper providing `.invoke({...})`
         return SimpleRAG(retriever=retriever, llm=llm, system_prompt_template=system_prompt, max_docs=2)
 
     except Exception as e:
@@ -219,7 +214,6 @@ def salary_prediction_ui():
         pred_usd = model_pred.predict(input_df)[0]
         formatted_salary = f"${pred_usd:,.2f}"
 
-        # Save Context
         st.session_state.last_prediction = {
             "Role": final_job,
             "Experience": f"{experience_year} years",
@@ -230,7 +224,6 @@ def salary_prediction_ui():
         left.success(f"### 💰 Estimated Salary: {formatted_salary}")
 
         spinner_placeholder = st.empty()
-        # Trigger AI Analysis
         if rag_chain:
             with spinner_placeholder.container():
                 with st.spinner("AI Agent is analyzing market data..."):
@@ -238,14 +231,11 @@ def salary_prediction_ui():
                     try:
                         # rag_chain.invoke accepts a dict like {"input": query}
                         analysis = rag_chain.invoke({"input": query})
-                        # analysis = response
 
                         left.info("### 💡 AI Career Analysis")
                         left.write(analysis)
 
-                        # Save to chat history
                         st.session_state.messages.append({"role": "assistant", "content": f"**Analysis:** {analysis}"})
-                        # st.session_state.new_prediction_made = True
                     except Exception as e:
                         st.error(f"RAG Invocation Error: {e}")
         else:
@@ -254,19 +244,15 @@ def salary_prediction_ui():
 def chatbot_ui():
     st.markdown("<h1>🤖 AI Career Coach Chatbot</h1>", unsafe_allow_html=True)
 
-    # Display Chat History
     for msg in st.session_state["messages"]:
         st.chat_message(msg["role"]).write(msg["content"])
 
-    # Chat Input
     if prompt := st.chat_input("Ask about skills, negotiation, or market trends..."):
         st.session_state["messages"].append({"role": "user", "content": prompt})
         st.chat_message("user").write(prompt)
 
-        # Generate Response
         if rag_chain:
             with st.spinner("Thinking..."):
-                # Add context from last prediction if available
                 context_str = ""
                 if st.session_state.last_prediction:
                     p = st.session_state.last_prediction
@@ -291,11 +277,10 @@ def data_analysis_ui():
         st.error("Cannot load analysis data. Please check 'cleaned_salary.csv'.")
         return
 
-    # 1. Salary Distribution (Histogram)
     st.markdown("---")
     st.subheader("1. Distribution of Salaries")
     chart1 = alt.Chart(data).mark_bar(color='#9c27b0', opacity=0.8).encode(
-        x=alt.X('Salary', bin=alt.Bin(maxbins=30), title='Annual Salary (USD)'), # Adjusted bins for better distribution view
+        x=alt.X('Salary', bin=alt.Bin(maxbins=30), title='Annual Salary (USD)'), 
         y=alt.Y('count()', title='Number of Employees'),
         tooltip=['Salary', 'count()']
     ).properties(
@@ -303,7 +288,6 @@ def data_analysis_ui():
     ).interactive()
     st.altair_chart(chart1, use_container_width=True)
 
-    # 2. Salary vs. Years of Experience (Scatter Plot/Regression Line)
     st.markdown("---")
     st.subheader("2. Salary vs. Years of Experience")
     
@@ -322,11 +306,11 @@ def data_analysis_ui():
     ).interactive()
     st.altair_chart(chart2, use_container_width=True)
 
-    # 3. Average Salary by Education Level (Bar Chart)
+  
     st.markdown("---")
     st.subheader("3. Average Salary by Education Level")
     
-    # Calculate means for accurate sorting and display
+   
     avg_salary_data = data.groupby('Education Level')['Salary'].mean().reset_index(name='Average Salary')
     
     chart3 = alt.Chart(avg_salary_data).mark_bar(color='#5f2c82').encode(
