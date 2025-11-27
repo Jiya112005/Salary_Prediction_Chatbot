@@ -1,0 +1,15 @@
+# Update requirements.txt
+streamlit
+pandas
+requests
+scikit-learn==1.7.2
+joblib
+altair
+# RAG Libraries
+langchain
+langchain-community
+faiss-cpu # Lightweight Vector DB
+sentence-transformers # For embeddings
+ollama # To run the LLM server
+langchain-ollama
+langchai_huggingface
