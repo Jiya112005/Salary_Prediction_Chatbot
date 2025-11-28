@@ -150,7 +150,7 @@ def get_rag_chain():
             collection_name="salary_explanations"  # Important: Must match vector.py
         )
 
-        retriever = vectorstore.as_retriever(search_kwargs={"k": 4})  # Fetch top 2 results
+        retriever = vectorstore.as_retriever(search_kwargs={"k": 4})  # Fetch top 4 results
 
         system_prompt = (
             "You are a dedicated AI Career Coach and HR Specialist. "
