@@ -168,7 +168,7 @@ def get_rag_chain():
             "{context}"
         )
 
-        return SimpleRAG(retriever=retriever, llm=llm, system_prompt_template=system_prompt, max_docs=2)
+        return SimpleRAG(retriever=retriever, llm=llm, system_prompt_template=system_prompt, max_docs=4)
 
     except Exception as e:
         st.error(f"RAG Setup Error: {e}")
