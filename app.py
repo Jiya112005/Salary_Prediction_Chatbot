@@ -90,7 +90,7 @@ class SimpleRAG:
     """
     Minimal retriever -> LLM wrapper exposing an `invoke` method.
     """
-    def __init__(self, retriever, llm, system_prompt_template: str, max_docs=1):
+    def __init__(self, retriever, llm, system_prompt_template: str, max_docs=4):
         self.retriever = retriever
         self.llm = llm
         self.system_prompt_template = system_prompt_template
@@ -150,13 +150,21 @@ def get_rag_chain():
             collection_name="salary_explanations"  # Important: Must match vector.py
         )
 
-        retriever = vectorstore.as_retriever(search_kwargs={"k": 2})  # Fetch top 2 results
+        retriever = vectorstore.as_retriever(search_kwargs={"k": 4})  # Fetch top 2 results
 
         system_prompt = (
-            "You are an expert HR Analyst. Use the retrieved context to answer "
-            "the user's question about salary, skills, and career steps. "
-            "If the answer is not in the context, say you don't know."
-            "\n\n"
+            "You are a dedicated AI Career Coach and HR Specialist. "
+            "Your knowledge is strictly limited to career advice, salary negotiation, job market trends, and professional skills.\n\n"
+            
+            "STRICT RULES:\n"
+            "1. If the user asks for creative writing (poems, jokes, stories), coding, or general knowledge unrelated to careers, "
+            "you MUST politely refuse.\n"
+            "2. In case of a refusal, reply with: 'I am designed to assist only with professional career and salary advice. "
+            "How can I help you with your job search or career planning?'\n"
+            "3. Use the RETRIEVED CONTEXT below to answer valid career questions grounded in data.\n"
+            "4. Do not hallucinate numbers. If the answer is not in the context, admit you do not know.\n\n"
+            
+            "RETRIEVED CONTEXT:\n"
             "{context}"
         )
 

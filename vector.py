@@ -39,3 +39,5 @@ if add_documents:
 retriever = vector_store.as_retriever(
     search_kwargs={'k':5}
 )
+
+print(f"Running vector.py successfully/ Overwrite the {db_location} ")
