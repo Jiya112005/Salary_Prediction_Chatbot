@@ -7,12 +7,11 @@ import altair as alt
 # --- LangChain Imports ---
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_ollama import ChatOllama
+from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
 
 # ---------- CONFIGURATION ----------
-OLLAMA_MODEL = "qwen2.5:3b"
-OLLAMA_BASE_URL = "http://127.0.0.1:11434"
+
 VECTOR_DB_PATH = "./chroma_langchain_db"
 PLACEHOLDER_IMAGE_URL = "web_img.png"  
 
@@ -135,7 +134,8 @@ def get_rag_chain():
     """Constructs and returns a SimpleRAG instance (or None on error)."""
     try:
         
-        llm = ChatOllama(model=OLLAMA_MODEL, base_url=OLLAMA_BASE_URL)
+        llm = ChatGroq(groq_api_key=os.getenv("GROQ_API_KEY"),model_name=os.getenv("MODEL_NAME"))
+        
 
         embeddings = HuggingFaceEmbeddings(model_name='all-MiniLM-L6-v2')
 
