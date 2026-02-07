@@ -14,3 +14,4 @@ sentence-transformers # For embeddings
 langchain_huggingface
 langchain-groq
 python-dotnet
+langchain-chroma
