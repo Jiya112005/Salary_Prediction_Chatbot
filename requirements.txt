@@ -12,4 +12,4 @@ faiss-cpu # Lightweight Vector DB
 sentence-transformers # For embeddings
 ollama # To run the LLM server
 langchain-ollama
-langchai_huggingface
+langchain_huggingface
