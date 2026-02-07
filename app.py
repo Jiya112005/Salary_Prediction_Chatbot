@@ -9,9 +9,9 @@ from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq
 from langchain_core.messages import SystemMessage, HumanMessage
-
+from dotenv import load_dotenv
 # ---------- CONFIGURATION ----------
-
+load_dotenv()
 VECTOR_DB_PATH = "./chroma_langchain_db"
 PLACEHOLDER_IMAGE_URL = "web_img.png"  
 
@@ -134,7 +134,7 @@ def get_rag_chain():
     """Constructs and returns a SimpleRAG instance (or None on error)."""
     try:
         
-        llm = ChatGroq(groq_api_key=os.getenv("GROQ_API_KEY"),model_name=os.getenv("MODEL_NAME"))
+        llm = ChatGroq(groq_api_key=os.getenv("GROQ_API_KEY"),model_name="llama-3.1-8b-instant")
         
 
         embeddings = HuggingFaceEmbeddings(model_name='all-MiniLM-L6-v2')
