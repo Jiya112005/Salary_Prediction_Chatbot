@@ -76,13 +76,13 @@ div.stButton > button:hover { transform: scale(1.05); }
 def load_data():
     try:
         model = joblib.load('salary_pipeline.pkl')
-        data = pd.read_csv('cleaned_salary.csv')
+        data = pd.read_csv('cleaned_salary.csv',nrows=3000)
         return model, data
     except Exception as e:
         st.error(f"Failed to load ML files: {e}")
         return None, None
 
-model_pred, data = load_data()
+# model_pred, data = load_data()
 
 # ---------- SIMPLE RAG WRAPPER ----------
 class SimpleRAG:
@@ -187,7 +187,9 @@ if 'new_prediction_made' not in st.session_state:
 # ---------- UI FUNCTIONS ----------
 def salary_prediction_ui():
     st.markdown("<h1>💼 Salary Prediction</h1>", unsafe_allow_html=True)
-
+    with st.spinner("Loading model and data..."):
+        model_pred, data = load_data()
+    
     if model_pred is None:
         return
 
