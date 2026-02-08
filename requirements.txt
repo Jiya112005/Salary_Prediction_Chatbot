@@ -14,7 +14,7 @@ sentence-transformers # For embeddings
 # To run the LLM server
 langchain_huggingface
 langchain-groq
-
+langchain-chroma
 dotenv
 chromadb
 pydantic
