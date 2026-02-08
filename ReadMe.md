@@ -104,14 +104,14 @@ Follow these steps to run the application locally.
 
 3. Install Dependencies
 
-      pip install -r requirements.txt
+       pip install -r requirements.txt
 
 
 4. Build the Vector Database
 
 Before running the app, you must embed the dataset into the vector store.
 
-    python vector.py
+      python vector.py
 
 
 This will create the ./chroma_langchain_db folder.
