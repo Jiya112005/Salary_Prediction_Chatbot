@@ -118,4 +118,6 @@ This will create the ./chroma_langchain_db folder.
 
 5. Run the Application
 
-streamlit run app.py
+       streamlit run app.py
+
+   
