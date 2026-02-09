@@ -282,7 +282,7 @@ def data_analysis_ui():
     st.markdown("<h1>📊 ML Data Analysis</h1>", unsafe_allow_html=True)
     st.markdown("#### **Project Component: ML Engineering (Transparency & Insights)**")
     st.info("These charts visualize the distribution and relationships in the training data used to build the salary prediction model.")
-
+    model_pred,data = load_data()
     if data is None:
         st.error("Cannot load analysis data. Please check 'cleaned_salary.csv'.")
         return
