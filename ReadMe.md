@@ -58,7 +58,13 @@ Vector Database: ChromaDB
 
 Embeddings: HuggingFace (all-MiniLM-L6-v2)
 
-Local LLM Server: Ollama
+Local LLM Server: Ollama (Optional)
+
+Now Use Grok 
+Create a .env file and  give your API key as follows:
+
+      GROK_API_KEY ="--your api key--"
+  
 
 📂 Project Structure
 
