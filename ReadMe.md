@@ -92,11 +92,6 @@ Create a .env file and  give your API key as follows:
 
 Follow these steps to run the application locally.
 
-For grok setup:
-Create a env file and provide your grok crendential in the following format:
-
-      GROK_API_KEY = "--your api crendentials here---"
-
 1. Prerequisite: Install Ollama  (optional if you want to use it locally)
 
   This app requires a local LLM server.
