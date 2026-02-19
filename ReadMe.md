@@ -7,6 +7,7 @@ A comprehensive career intelligence tool that combines Classic Machine Learning 
 
 This application runs entirely locally using Ollama, ensuring data privacy and zero API costs.
 
+Live here -> https://salary-prediction-chatbot.streamlit.app/
 🌟 Features
 
 1. 💰 Salary Prediction Engine
@@ -24,7 +25,7 @@ Age & Gender
 Used RandomForestRegressor to assess the salary based on the multiple decision trees affected by various categories of the factors mentioned in features.
 Result: Provides an immediate estimated annual compensation package.
 
-2. 🤖 RAG-Based AI Career Coach
+2. 🤖 RAG-Based AI Career Coach (1st version)
 
 Local LLM: Powered by Qwen2.5 (via Ollama) and LangChain.
 
@@ -37,6 +38,8 @@ Knowledge Base: Uses a vector database (ChromaDB) built from real-world salary d
 "What skills do I need to become a Senior Manager?"
 
 "What is the typical career path for a Data Analyst?"
+
+Or Integrate using the Grok API for enhancing the speed of the chatbot response connecting to the vector database retrived context.
 
 3. 📊 Interactive Data Analysis
 
@@ -89,7 +92,12 @@ Create a .env file and  give your API key as follows:
 
 Follow these steps to run the application locally.
 
-1. Prerequisite: Install Ollama
+For grok setup:
+Create a env file and provide your grok crendential in the following format:
+
+      GROK_API_KEY = "--your api crendentials here---"
+
+1. Prerequisite: Install Ollama  (optional if you want to use it locally)
 
   This app requires a local LLM server.
 
