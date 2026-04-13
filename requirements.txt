@@ -19,3 +19,5 @@ dotenv
 chromadb
 pydantic
 torch
+protobuf==4.25.3
+altair
