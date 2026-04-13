@@ -20,4 +20,4 @@ dotenv
 chromadb
 pydantic
 torch
-protobuf<5.0.0
+protobuf==3.20
