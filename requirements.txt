@@ -1,5 +1,4 @@
 # Update requirements.txt
-python==3.12
 streamlit
 pandas
 requests
@@ -20,4 +19,3 @@ dotenv
 chromadb
 pydantic
 torch
-protobuf==3.20
