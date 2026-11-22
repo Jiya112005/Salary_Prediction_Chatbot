@@ -134,7 +134,7 @@ def get_rag_chain():
     """Constructs and returns a SimpleRAG instance (or None on error)."""
     try:
         
-        llm = ChatGroq(groq_api_key=os.getenv("GROQ_API_KEY"),model_name="llama-3.1-8B")
+        llm = ChatGroq(groq_api_key=os.getenv("GROQ_API_KEY"),model_name="openai/gpt-oss-120b")
         
 
         embeddings = HuggingFaceEmbeddings(model_name='all-MiniLM-L6-v2')
